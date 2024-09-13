@@ -44,10 +44,10 @@ function App() {
         const maxOutputTokens =
           modelData.max_output_tokens || modelData.max_tokens || "-";
         const promptCostPerToken = modelData.input_cost_per_token
-          ? parseFloat(modelData.input_cost_per_token).toFixed(6)
+          ? parseFloat(modelData.input_cost_per_token).toFixed(9)
           : "-";
         const completionCostPerToken = modelData.output_cost_per_token
-          ? parseFloat(modelData.output_cost_per_token).toFixed(6)
+          ? parseFloat(modelData.output_cost_per_token).toFixed(9)
           : "-";
         const promptCostPerMillion = modelData.input_cost_per_token
           ? (modelData.input_cost_per_token * 1_000_000).toFixed(2)
