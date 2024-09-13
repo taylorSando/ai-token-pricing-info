@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ai-token-pricing-info/static/css/main.f855e6bc.css",
+    "main.js": "/ai-token-pricing-info/static/js/main.06c315f3.js",
+    "static/js/453.7d06faeb.chunk.js": "/ai-token-pricing-info/static/js/453.7d06faeb.chunk.js",
+    "index.html": "/ai-token-pricing-info/index.html",
+    "main.f855e6bc.css.map": "/ai-token-pricing-info/static/css/main.f855e6bc.css.map",
+    "main.06c315f3.js.map": "/ai-token-pricing-info/static/js/main.06c315f3.js.map",
+    "453.7d06faeb.chunk.js.map": "/ai-token-pricing-info/static/js/453.7d06faeb.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.06c315f3.js"
+  ]
+}
