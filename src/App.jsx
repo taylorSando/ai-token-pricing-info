@@ -43,17 +43,24 @@ function App() {
           modelData.max_input_tokens || modelData.max_tokens || "-";
         const maxOutputTokens =
           modelData.max_output_tokens || modelData.max_tokens || "-";
-        const promptCost = modelData.input_cost_per_token
-          ? (modelData.input_cost_per_token * 1_000_000).toFixed(6)
+        const promptCostPerToken = modelData.input_cost_per_token
+          ? parseFloat(modelData.input_cost_per_token).toFixed(9)
           : "-";
-        const completionCost = modelData.output_cost_per_token
-          ? (modelData.output_cost_per_token * 1_000_000).toFixed(6)
+        const completionCostPerToken = modelData.output_cost_per_token
+          ? parseFloat(modelData.output_cost_per_token).toFixed(9)
+          : "-";
+        const promptCostPerMillion = modelData.input_cost_per_token
+          ? (modelData.input_cost_per_token * 1_000_000).toFixed(2)
+          : "-";
+        const completionCostPerMillion = modelData.output_cost_per_token
+          ? (modelData.output_cost_per_token * 1_000_000).toFixed(2)
           : "-";
         return {
           modelName,
-          promptCost: promptCost !== "-" ? parseFloat(promptCost) : "-",
-          completionCost:
-            completionCost !== "-" ? parseFloat(completionCost) : "-",
+          promptCostPerToken,
+          completionCostPerToken,
+          promptCostPerMillion,
+          completionCostPerMillion,
           maxPromptTokens:
             maxPromptTokens !== "-" ? parseInt(maxPromptTokens, 10) : "-",
           maxOutputTokens:
@@ -106,12 +113,21 @@ function App() {
             <th onClick={() => handleSort("modelName")}>
               Model Name {getSortIndicator("modelName")}
             </th>
-            <th onClick={() => handleSort("promptCost")}>
-              Prompt Cost (USD) per 1M tokens {getSortIndicator("promptCost")}
+            <th onClick={() => handleSort("promptCostPerToken")}>
+              Prompt Cost per Token (USD){" "}
+              {getSortIndicator("promptCostPerToken")}
             </th>
-            <th onClick={() => handleSort("completionCost")}>
-              Completion Cost (USD) per 1M tokens{" "}
-              {getSortIndicator("completionCost")}
+            <th onClick={() => handleSort("completionCostPerToken")}>
+              Completion Cost per Token (USD){" "}
+              {getSortIndicator("completionCostPerToken")}
+            </th>
+            <th onClick={() => handleSort("promptCostPerMillion")}>
+              Prompt Cost per 1M Tokens (USD){" "}
+              {getSortIndicator("promptCostPerMillion")}
+            </th>
+            <th onClick={() => handleSort("completionCostPerMillion")}>
+              Completion Cost per 1M Tokens (USD){" "}
+              {getSortIndicator("completionCostPerMillion")}
             </th>
             <th onClick={() => handleSort("maxPromptTokens")}>
               Max Prompt Tokens {getSortIndicator("maxPromptTokens")}
@@ -125,8 +141,10 @@ function App() {
           {sortedData.map((model) => (
             <tr key={model.modelName}>
               <td>{model.modelName}</td>
-              <td>{model.promptCost}</td>
-              <td>{model.completionCost}</td>
+              <td>{model.promptCostPerToken}</td>
+              <td>{model.completionCostPerToken}</td>
+              <td>{model.promptCostPerMillion}</td>
+              <td>{model.completionCostPerMillion}</td>
               <td>{model.maxPromptTokens}</td>
               <td>{model.maxOutputTokens}</td>
             </tr>
