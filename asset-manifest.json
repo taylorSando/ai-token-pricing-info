@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/ai-token-pricing-info/static/css/main.3631d8d9.css",
-    "main.js": "/ai-token-pricing-info/static/js/main.084f4457.js",
+    "main.js": "/ai-token-pricing-info/static/js/main.21425454.js",
     "static/js/453.7d06faeb.chunk.js": "/ai-token-pricing-info/static/js/453.7d06faeb.chunk.js",
     "index.html": "/ai-token-pricing-info/index.html",
     "main.3631d8d9.css.map": "/ai-token-pricing-info/static/css/main.3631d8d9.css.map",
-    "main.084f4457.js.map": "/ai-token-pricing-info/static/js/main.084f4457.js.map",
+    "main.21425454.js.map": "/ai-token-pricing-info/static/js/main.21425454.js.map",
     "453.7d06faeb.chunk.js.map": "/ai-token-pricing-info/static/js/453.7d06faeb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.3631d8d9.css",
-    "static/js/main.084f4457.js"
+    "static/js/main.21425454.js"
   ]
 }
