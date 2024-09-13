@@ -27,6 +27,13 @@ function App() {
     setSortConfig({ key, direction });
   };
 
+  const getSortIndicator = (key) => {
+    if (sortConfig.key !== key) {
+      return null;
+    }
+    return sortConfig.direction === "asc" ? "▲" : "▼";
+  };
+
   const sortedData = React.useMemo(() => {
     if (!data) return [];
     const sortableData = Object.entries(data)
@@ -44,10 +51,13 @@ function App() {
           : "-";
         return {
           modelName,
-          promptCost,
-          completionCost,
-          maxPromptTokens,
-          maxOutputTokens,
+          promptCost: promptCost !== "-" ? parseFloat(promptCost) : "-",
+          completionCost:
+            completionCost !== "-" ? parseFloat(completionCost) : "-",
+          maxPromptTokens:
+            maxPromptTokens !== "-" ? parseInt(maxPromptTokens, 10) : "-",
+          maxOutputTokens:
+            maxOutputTokens !== "-" ? parseInt(maxOutputTokens, 10) : "-",
         };
       });
 
@@ -55,17 +65,27 @@ function App() {
       sortableData.sort((a, b) => {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
-        if (aValue === "-") return 1; // Treat missing data as greater so it moves to the bottom
-        if (bValue === "-") return -1;
-        if (aValue < bValue) {
-          return sortConfig.direction === "asc" ? -1 : 1;
+
+        // Handle missing values
+        if (aValue === "-" && bValue !== "-") return 1;
+        if (bValue === "-" && aValue !== "-") return -1;
+        if (aValue === "-" && bValue === "-") return 0;
+
+        // Handle sorting for both numbers and strings
+        if (typeof aValue === "number" && typeof bValue === "number") {
+          return sortConfig.direction === "asc"
+            ? aValue - bValue
+            : bValue - aValue;
         }
-        if (aValue > bValue) {
-          return sortConfig.direction === "asc" ? 1 : -1;
+        if (typeof aValue === "string" && typeof bValue === "string") {
+          return sortConfig.direction === "asc"
+            ? aValue.localeCompare(bValue)
+            : bValue.localeCompare(aValue);
         }
         return 0;
       });
     }
+
     return sortableData;
   }, [data, sortConfig]);
 
@@ -83,18 +103,21 @@ function App() {
       <table>
         <thead>
           <tr>
-            <th onClick={() => handleSort("modelName")}>Model Name</th>
+            <th onClick={() => handleSort("modelName")}>
+              Model Name {getSortIndicator("modelName")}
+            </th>
             <th onClick={() => handleSort("promptCost")}>
-              Prompt Cost (USD) per 1M tokens
+              Prompt Cost (USD) per 1M tokens {getSortIndicator("promptCost")}
             </th>
             <th onClick={() => handleSort("completionCost")}>
-              Completion Cost (USD) per 1M tokens
+              Completion Cost (USD) per 1M tokens{" "}
+              {getSortIndicator("completionCost")}
             </th>
             <th onClick={() => handleSort("maxPromptTokens")}>
-              Max Prompt Tokens
+              Max Prompt Tokens {getSortIndicator("maxPromptTokens")}
             </th>
             <th onClick={() => handleSort("maxOutputTokens")}>
-              Max Output Tokens
+              Max Output Tokens {getSortIndicator("maxOutputTokens")}
             </th>
           </tr>
         </thead>
