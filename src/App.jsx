@@ -17,7 +17,7 @@ function App() {
       .catch((error) => {
         setError(error); // Save error in case fetching fails
       });
-  }, []); // Empty array ensures this runs once, when the component mounts
+  }, []);
 
   const handleSort = (key) => {
     let direction = "asc";
@@ -44,10 +44,10 @@ function App() {
         const maxOutputTokens =
           modelData.max_output_tokens || modelData.max_tokens || "-";
         const promptCostPerToken = modelData.input_cost_per_token
-          ? parseFloat(modelData.input_cost_per_token).toFixed(9)
+          ? parseFloat(modelData.input_cost_per_token).toFixed(6)
           : "-";
         const completionCostPerToken = modelData.output_cost_per_token
-          ? parseFloat(modelData.output_cost_per_token).toFixed(9)
+          ? parseFloat(modelData.output_cost_per_token).toFixed(6)
           : "-";
         const promptCostPerMillion = modelData.input_cost_per_token
           ? (modelData.input_cost_per_token * 1_000_000).toFixed(2)
@@ -57,10 +57,20 @@ function App() {
           : "-";
         return {
           modelName,
-          promptCostPerToken,
-          completionCostPerToken,
-          promptCostPerMillion,
-          completionCostPerMillion,
+          promptCostPerToken:
+            promptCostPerToken !== "-" ? parseFloat(promptCostPerToken) : "-",
+          completionCostPerToken:
+            completionCostPerToken !== "-"
+              ? parseFloat(completionCostPerToken)
+              : "-",
+          promptCostPerMillion:
+            promptCostPerMillion !== "-"
+              ? parseFloat(promptCostPerMillion)
+              : "-",
+          completionCostPerMillion:
+            completionCostPerMillion !== "-"
+              ? parseFloat(completionCostPerMillion)
+              : "-",
           maxPromptTokens:
             maxPromptTokens !== "-" ? parseInt(maxPromptTokens, 10) : "-",
           maxOutputTokens:
@@ -73,7 +83,7 @@ function App() {
         const aValue = a[sortConfig.key];
         const bValue = b[sortConfig.key];
 
-        // Handle missing values
+        // Handle missing values (displayed as "-")
         if (aValue === "-" && bValue !== "-") return 1;
         if (bValue === "-" && aValue !== "-") return -1;
         if (aValue === "-" && bValue === "-") return 0;
@@ -141,10 +151,26 @@ function App() {
           {sortedData.map((model) => (
             <tr key={model.modelName}>
               <td>{model.modelName}</td>
-              <td>{model.promptCostPerToken}</td>
-              <td>{model.completionCostPerToken}</td>
-              <td>{model.promptCostPerMillion}</td>
-              <td>{model.completionCostPerMillion}</td>
+              <td>
+                {model.promptCostPerToken !== "-"
+                  ? model.promptCostPerToken.toFixed(9)
+                  : "-"}
+              </td>
+              <td>
+                {model.completionCostPerToken !== "-"
+                  ? model.completionCostPerToken.toFixed(9)
+                  : "-"}
+              </td>
+              <td>
+                {model.promptCostPerMillion !== "-"
+                  ? model.promptCostPerMillion.toFixed(2)
+                  : "-"}
+              </td>
+              <td>
+                {model.completionCostPerMillion !== "-"
+                  ? model.completionCostPerMillion.toFixed(2)
+                  : "-"}
+              </td>
               <td>{model.maxPromptTokens}</td>
               <td>{model.maxOutputTokens}</td>
             </tr>
